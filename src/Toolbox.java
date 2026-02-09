@@ -1,5 +1,6 @@
 import java.util.Map;
 import java.util.Queue;
+import java.util.Stack;
 import java.util.HashMap;
 
 public class Toolbox {
@@ -164,6 +165,18 @@ public class Toolbox {
     if (head == null) {
       throw new IllegalArgumentException("Head cannot be null.");
     }
+    SingleNode prev = head;
+    SingleNode current = head.next;
+
+    while (current != null && current.next != null) {
+      if (current.data > current.next.data) {
+        prev.next = current.next;
+        current = prev.next;
+      } else {
+        prev = current;
+        current = current.next;
+      }
+    }
     
   }
 
@@ -185,6 +198,11 @@ public class Toolbox {
     public static void tripleValues(Queue<Integer> queue) {
       if (queue == null) {
         throw new IllegalArgumentException("Queue cannot be null");
+      }
+
+      for(int i = 0; i < queue.size(); i++) {
+        int n = queue.remove();
+        queue.add(n * 3);
       }
       
     }
@@ -211,6 +229,13 @@ public class Toolbox {
     if (queue == null || k < 0) {
       throw new IllegalArgumentException("Queue cannot be null and k cannot be negative.");
     }
+
+    k = k % queue.size();
+
+
+    for(int i = 0; i < k; i++) {
+      queue.add(queue.remove());
+    }
     
   }
 
@@ -233,7 +258,23 @@ public class Toolbox {
     if (input == null) {
       throw new IllegalArgumentException("Input string cannot be null.");
     }
-    return false;
+    Stack<Character> open = new Stack<>();
+    for(char c : input.toCharArray()) {
+      if(c == '(') {
+        open.push(c);
+      } else if (c == ')') {
+        if(open.isEmpty()) {
+          return false;
+        }
+        open.pop();
+      }
+    }
+
+    if(!open.isEmpty()) {
+      return false;
+    }
+
+    return true;
   }
 
   /**
@@ -261,6 +302,22 @@ public class Toolbox {
     if (scores == null || scores.isEmpty()) {
       throw new IllegalArgumentException("Scares cannot be null or empty");
     }
-    return null;
+
+    int max = 0;
+    String name = "";
+    for(Map.Entry<String, Integer> entry : scores.entrySet()) {
+      String key = entry.getKey();
+      int value = entry.getValue();
+      if (max < value) {
+        max = value;
+        name = key;
+      } else if (max == value) {
+        if (name.charAt(0) > key.charAt(0)) {
+          name = key;
+        }
+      }
+    }
+
+    return name;
   }
 }
