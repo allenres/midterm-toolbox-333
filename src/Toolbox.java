@@ -91,7 +91,13 @@ public class Toolbox {
     if (node == null) {
       throw new IllegalArgumentException("Node cannot be null.");
     }
-    
+    if(node.prev != null) {
+      node.prev.next = node.next;
+    }
+
+    if(node.next != null) {
+      node.next.prev = node.prev;
+    }
   }
 
   /**
@@ -105,6 +111,15 @@ public class Toolbox {
   public static SingleNode findNthElement(SingleNode head, int n) {
     if (head == null || n < 0) {
       throw new IllegalArgumentException("Head cannot be null and n cannot be negative.");
+    }
+    int index = 0;
+    SingleNode current = head;
+    while(current != null) {
+      if(n == index) {
+        return current;
+      }
+      index++;
+      current = current.next;
     }
     return null; 
   }
