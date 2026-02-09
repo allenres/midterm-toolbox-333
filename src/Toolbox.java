@@ -1,5 +1,6 @@
 import java.util.Map;
 import java.util.Queue;
+import java.util.HashMap;
 
 public class Toolbox {
 
@@ -71,7 +72,13 @@ public class Toolbox {
     if (head == null) {
       throw new IllegalArgumentException("Head cannot be null.");
     }
-    return null; 
+    Map<Integer, Integer> countMap = new HashMap<>();
+    SingleNode current = head;
+    while(current != null) {
+      countMap.put(current.data, countMap.getOrDefault(current.data, 0) + 1);
+      current = current.next;
+    }
+    return countMap; 
   }
 
   /**
