@@ -136,6 +136,13 @@ public class Toolbox {
       throw new IllegalArgumentException("Node and newNode cannot be null.");
     }
 
+    if(node.next == null) {
+      node.next = newNode;
+    } else {
+      newNode.next = node.next;
+      node.next = newNode;
+    }
+
   }
 
   /**
